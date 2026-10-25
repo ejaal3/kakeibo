@@ -376,7 +376,47 @@ dialog::backdrop{background:rgba(10,30,18,.4);backdrop-filter:blur(6px)}
 .foot .linkbtn{color:var(--ink-3);font-weight:500;font-size:12.5px;display:inline-flex;gap:8px;align-items:center}
 .tabbar{display:none}
 
+
+/* calendar */
+.calwrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;align-items:start}
+.calside{position:sticky;top:20px;display:flex;flex-direction:column;gap:18px}
+.calkpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.calkpis .kpi b{font-size:24px}
+.wd{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;font-size:12px;color:var(--ink-3);font-weight:600;text-align:center;text-transform:capitalize}
+.cgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.cd{position:relative;min-height:96px;border:1.5px solid transparent;border-radius:14px;padding:7px 8px;text-align:left;display:flex;flex-direction:column;gap:3px;min-width:0;overflow:hidden;
+  background:color-mix(in srgb,var(--green) calc(var(--h,0) * 34%),var(--soft));color:var(--ink);transition:border-color .12s,transform .12s}
+.cd.over{background:color-mix(in srgb,var(--bad) calc(var(--h,0) * 30%),var(--soft))}
+.cd.out{visibility:hidden;pointer-events:none}
+.cd:hover{border-color:var(--ink-3)}
+.cd.sel{border-color:var(--ink);box-shadow:0 6px 16px -10px rgba(0,0,0,.4)}
+.cd.fut{background:transparent;border:1.5px dashed var(--line)}
+.cd.fut.sel{border:1.5px solid var(--ink)}
+.cd .dn{font-size:12.5px;font-weight:700;min-width:24px;height:24px;border-radius:50%;display:grid;place-items:center;margin:-3px 0 0 -4px;color:var(--ink-2)}
+.cd.today .dn{background:var(--green);color:#fff}
+.cd .dn{align-self:flex-start}
+.calside .tx{grid-template-columns:44px minmax(0,1fr) auto}.calside .tx .dt,.calside .tx .tag{display:none}.calside .tx .n small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cd .ct{font-weight:700;font-size:13.5px;letter-spacing:-.01em;line-height:1.2}
+.cdots{display:flex;gap:3px;flex-wrap:wrap}
+.cdots i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.crec{font-size:10.5px;font-weight:600;padding:2px 6px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;background:var(--ink);color:var(--win);line-height:1.35}
+.crec.income{background:var(--green-soft);color:var(--green)}
+.crec.saving{background:color-mix(in srgb,var(--culture) 16%,var(--card));color:var(--culture)}
+.crec.off{opacity:.45;text-decoration:line-through}
+.cmore{font-size:10.5px;color:var(--ink-3);font-weight:600}
+.rdot{display:none;width:6px;height:6px;border-radius:2px;background:var(--ink);position:absolute;top:8px;right:8px}
+.callegend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-3);align-items:center}
+.callegend span{display:inline-flex;align-items:center;gap:7px}
+.sw{display:inline-block;width:26px;height:10px;border-radius:4px;background:linear-gradient(90deg,var(--soft),color-mix(in srgb,var(--green) 34%,var(--soft)))}
+.sw.r{background:color-mix(in srgb,var(--bad) 30%,var(--soft))}
+.sw.k{width:14px;background:var(--ink)}
+.dayhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dayhead h2{text-transform:capitalize}
+.daytot{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+
 @media (max-width:1180px){
+  .calwrap{grid-template-columns:minmax(0,1fr)}.calside{position:static}.calkpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+
   .dash{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"green quick" "donut chart" "save recent" "pillars pillars" "pre goalsm"}
   .pillars{grid-template-columns:repeat(2,minmax(0,1fr))}
   .jgrid{grid-template-columns:minmax(0,1fr)}.jside{position:static}
@@ -394,6 +434,8 @@ dialog::backdrop{background:rgba(10,30,18,.4);backdrop-filter:blur(6px)}
   .gsum{grid-template-columns:1fr}.gsum .kv{grid-template-columns:1fr 1fr 1fr}
 }
 @media (max-width:760px){
+  .cgrid,.wd{gap:4px}.cd{min-height:58px;padding:5px;border-radius:10px;gap:1px}.cd .dn{font-size:11.5px;min-width:20px;height:20px;margin:-2px 0 0 -2px}.cd .ct{font-size:10.5px}.crec,.cmore,.cdots{display:none}.rdot{display:block;top:6px;right:6px}.calkpis .kpi b{font-size:20px}
+
   .win{padding:16px 14px 24px;border-radius:28px;gap:20px}
   .monthpill .m{min-width:92px}
   .dash{grid-template-columns:minmax(0,1fr);grid-template-areas:"green" "quick" "donut" "chart" "goalsm" "recent" "save" "pillars" "pre"}
@@ -531,10 +573,13 @@ dialog::backdrop{background:rgba(10,30,18,.4);backdrop-filter:blur(6px)}
       <span class="k"><kbd>N</kbd></span><span>Ajouter une dépense</span>
       <span class="k"><kbd>←</kbd><kbd>→</kbd></span><span>Mois précédent / suivant</span>
       <span class="k"><kbd>T</kbd></span><span>Revenir au mois en cours</span>
-      <span class="k"><kbd>A</kbd><kbd>J</kbd><kbd>O</kbd><kbd>R</kbd><kbd>P</kbd><kbd>B</kbd></span><span>Accueil, Journal, Objectifs, Récurrents, Préparer, Bilan</span>
+      <span class="k"><kbd>A</kbd><kbd>J</kbd><kbd>C</kbd><kbd>O</kbd><kbd>R</kbd><kbd>P</kbd><kbd>B</kbd></span><span>Accueil, Journal, Calendrier, Objectifs, Récurrents, Préparer, Bilan</span>
       <span class="k"><kbd>/</kbd></span><span>Rechercher une dépense</span>
       <span class="k"><kbd>D</kbd></span><span>Basculer clair / sombre</span>
       <span class="k"><kbd>⌘</kbd><kbd>Z</kbd></span><span>Annuler la dernière action</span>
+      <h4>Dans le calendrier</h4>
+      <span class="k"><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd></span><span>Changer de jour</span>
+      <span class="k"><kbd>↵</kbd></span><span>Ajouter une dépense ce jour</span>
       <h4>Pendant la saisie</h4>
       <span class="k"><kbd>⌥</kbd><kbd>1</kbd>–<kbd>4</kbd></span><span>Choisir le pilier</span>
       <span class="k"><kbd>↵</kbd></span><span>Ajouter la dépense</span>
@@ -549,7 +594,7 @@ dialog::backdrop{background:rgba(10,30,18,.4);backdrop-filter:blur(6px)}
 const CATS=[{k:'survie',name:'Survie',desc:'Courses, transport, santé'},{k:'optionnel',name:'Optionnel',desc:'Restos, shopping, sorties'},
   {k:'culture',name:'Culture',desc:'Livres, musées, cours'},{k:'imprevus',name:'Imprévus',desc:'Réparations, cadeaux'}];
 const CAT=Object.fromEntries(CATS.map(c=>[c.k,c]));
-const PAGES=[{k:'home',name:'Accueil',key:'a'},{k:'journal',name:'Journal',key:'j'},{k:'goals',name:'Objectifs',key:'o'},{k:'recurring',name:'Récurrents',key:'r'},{k:'month',name:'Préparer',key:'p'},{k:'bilan',name:'Bilan',key:'b'}];
+const PAGES=[{k:'home',name:'Accueil',key:'a'},{k:'journal',name:'Journal',key:'j'},{k:'calendar',name:'Calendrier',key:'c'},{k:'goals',name:'Objectifs',key:'o'},{k:'recurring',name:'Récurrents',key:'r'},{k:'month',name:'Préparer',key:'p'},{k:'bilan',name:'Bilan',key:'b'}];
 const COVERS=[{k:'voyage',name:'Voyage',g:'linear-gradient(140deg,#0D6474 0%,#36ABA7 55%,#F4D58D 100%)'},{k:'maison',name:'Maison',g:'linear-gradient(140deg,#6E4224 0%,#CF9157 55%,#F5DCB0 100%)'},
   {k:'voiture',name:'Voiture',g:'linear-gradient(140deg,#1A2240 0%,#495C97 60%,#A7B7E8 100%)'},{k:'securite',name:'Sécurité',g:'linear-gradient(140deg,#155A37 0%,#2F9A60 50%,#A6E3BE 100%)'},
   {k:'fete',name:'Fête',g:'linear-gradient(140deg,#6C2550 0%,#DD5D7C 55%,#FFC3A6 100%)'},{k:'tech',name:'Tech',g:'linear-gradient(140deg,#101316 0%,#39424A 60%,#8DA2AD 100%)'},
@@ -600,7 +645,7 @@ const local={load(){try{return JSON.parse(localStorage.getItem(LKEY)||'{}')||{}}
   async remove(id){try{const a=this.load();delete a[id];localStorage.setItem(LKEY,JSON.stringify(a))}catch{}}};
 let backend=local,months={},settings=blankSettings(),goals={};
 for(const[k,v]of Object.entries(local.load())){if(k==='settings')settings=normS(v);else if(isGoalId(k))goals[k]=normG(v);else if(/^\d{4}-\d{2}$/.test(k))months[k]=normM(v)}
-let cur=CURM,page='home',filter='all',query='',chartMode='month';
+let calSel=null,cur=CURM,page='home',filter='all',query='',chartMode='month';
 const pref=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch{}};
 {const h=location.hash.slice(1);if(PAGES.some(p=>p.k===h))page=h;else{const p=pref('kakeibo.page');if(PAGES.some(x=>x.k===p))page=p}}
 const qa={amount:'',label:'',cat:'survie',date:'',touched:false};
@@ -722,7 +767,7 @@ function totalSavings(){let t=settings.startSavings||0;const ids=new Set(Object.
 function labelIndex(){const m=new Map();for(const d of Object.values(months))for(const e of d.expenses){const l=(e.label||'').trim();if(!l)continue;
   const k=l.toLowerCase(),x=m.get(k)||{label:l,cat:e.cat,n:0,t:0};x.n++;if((e.t||0)>=x.t){x.t=e.t||0;x.cat=e.cat;x.label=l}m.set(k,x)}return[...m.values()].sort((a,b)=>b.n-a.n||b.t-a.t)}
 const dailyOf=date=>sum(docOf(date.slice(0,7)).expenses.filter(e=>e.date===date));
-const defaultDate=()=>cur===CURM?TODAY:cur<CURM?cur+'-'+pad(dim(cur)):cur+'-01';
+const defaultDate=()=>page==='calendar'&&calSel&&calSel.slice(0,7)===cur?calSel:cur===CURM?TODAY:cur<CURM?cur+'-'+pad(dim(cur)):cur+'-01';
 /* goals */
 function gStat(g){const saved=r2(g.initial+sum(g.deposits)),target=g.target||0,rest=r2(Math.max(0,target-saved)),pct=target?saved/target:0;
   const ml=g.deadline?Math.max(1,mDiff(CURM,g.deadline)+1):0,need=ml&&rest?r2(rest/ml):0;
@@ -750,7 +795,7 @@ function render(){
   document.getElementById('mlabel').innerHTML=`${esc(mName(cur,{month:'long'}))}<small>${mDate(cur).getFullYear()}</small>`;
   document.getElementById('today').hidden=cur===CURM||page==='goals'||page==='recurring';
   const h=NOW.getHours();
-  const heads={home:[h<5||h>=18?'Bonsoir':'Bonjour',`Voici où en sont vos comptes de ${mName(cur,{month:'long'})}.`],journal:['Journal','Toutes vos dépenses du mois, semaine par semaine.'],
+  const heads={home:[h<5||h>=18?'Bonsoir':'Bonjour',`Voici où en sont vos comptes de ${mName(cur,{month:'long'})}.`],journal:['Journal','Toutes vos dépenses du mois, semaine par semaine.'],calendar:['Calendrier','Vos dépenses et vos prélèvements, jour par jour.'],
     goals:['Objectifs','Ce pour quoi vous épargnez, et où vous en êtes.'],recurring:['Récurrents','Ce qui revient chaque mois ou chaque année, saisi une seule fois.'],
     month:['Préparer le mois','Épargne, revenus, charges et enveloppes, avant de dépenser.'],bilan:['Bilan','Les quatre questions du Kakeibo pour clore le mois.']};
   document.getElementById('hello').textContent=heads[page][0];document.getElementById('hsub').textContent=heads[page][1];
@@ -759,7 +804,7 @@ function render(){
   else{hb.dataset.act='add';hb.innerHTML='<span style="font-size:18px;line-height:1">+</span> Ajouter une dépense <kbd class="opt">N</kbd>'}
   syncTheme();
   const c=calc(cur);
-  document.getElementById('page').innerHTML=({home,journal,goalsPage,recurring,month,bilan})[page==='goals'?'goalsPage':page](c);
+  document.getElementById('page').innerHTML=({home,journal,calendar,goalsPage,recurring,month,bilan})[page==='goals'?'goalsPage':page](c);
   if(page==='home'||page==='journal')mountQuick();
   if(page==='home')mountChart();
   if(aid){const el=document.getElementById(aid);if(el&&el!==document.activeElement){el.focus({preventScroll:true});if(sel&&el.setSelectionRange)try{el.setSelectionRange(...sel)}catch{}}}
@@ -847,7 +892,7 @@ function home(c){
       <div class="m ${over?'over':''}">${b?(over?`${money0(v-b)} au-dessus de l'enveloppe`:`reste ${money0(b-v)} sur ${money0(b)}`):k.desc}</div></button>`}).join('')}</div>`;
   const td=isCur?NOW.getDate():cur<CURM?99:0;
   const occ=c.rec.filter(x=>x.pays&&x.r.type!=='income').map(x=>({...x,day:Math.min(+x.r.day||1,dim(cur))})).sort((a,b)=>a.day-b.day);
-  const pre=`<section class="card a-pre"><div class="ch"><h2>Prélèvements du mois</h2><span class="v num">${occ.length?money(sum(occ.map(x=>({amount:x.r.amount})))):''}</span></div>
+  const pre=`<section class="card a-pre"><div class="ch"><h2>Prélèvements du mois</h2><button class="pill" data-go="calendar">Calendrier</button><span class="v num">${occ.length?money(sum(occ.map(x=>({amount:x.r.amount})))):''}</span></div>
     ${occ.length?`<div class="rows">${occ.map(x=>recRow(x.r,{done:x.day<td,sub:`${x.day<td?'Passé · ':''}le ${x.day} ${mName(cur,{month:'short'})}`,amount:x.r.amount})).join('')}</div>`
     :`<div class="empty"><p>Ajoutez loyer, abonnements et assurances pour les voir arriver ici.</p><button class="btn soft sm" data-go="recurring">Ajouter un récurrent</button></div>`}</section>`;
   const gl=goalList().slice(0,4);
@@ -907,6 +952,47 @@ function journal(c){
     <section class="card"><div class="ch"><h2>${filter==='all'?'Total du mois':CAT[filter].name}</h2></div><div style="font-size:30px;font-weight:700;letter-spacing:-.02em" class="num">${money(sum(list))}</div>
     <p class="hint">${list.length} dépense${list.length>1?'s':''}${q?` contenant « ${esc(query)} »`:''}</p></section></div></div>`;
 }
+
+/* --- Calendrier --- */
+function calendar(c){
+  const n=dim(cur),first=mDate(cur),lead=(first.getDay()+6)%7;
+  if(!calSel||calSel.slice(0,7)!==cur)calSel=cur===CURM?TODAY:cur+'-01';
+  const byDay={};c.d.expenses.forEach(e=>{(byDay[e.date]=byDay[e.date]||[]).push(e)});
+  const recDay={};recFor(cur).filter(x=>x.pays).forEach(x=>{const k=cur+'-'+pad(Math.min(+x.r.day||1,n));(recDay[k]=recDay[k]||[]).push({...x,off:c.d.skips.includes(x.r.id)})});
+  const per=c.avail>0?c.avail/n:0,tots=Object.values(byDay).map(sum),maxDay=Math.max(1,...tots);
+  const lastPast=cur<CURM?n:cur>CURM?0:NOW.getDate();
+  let zero=0;for(let d=1;d<=lastPast;d++)if(!byDay[cur+'-'+pad(d)])zero++;
+  let big=null;for(const[k,v]of Object.entries(byDay)){const t=sum(v);if(!big||t>big.t)big={k,t}}
+  const recTot=r2(Object.values(recDay).flat().filter(x=>!x.off&&x.r.type!=='income').reduce((s,x)=>s+(+x.r.amount||0),0));
+  const wds=Array.from({length:7},(_,i)=>new Date(2024,0,1+i).toLocaleDateString('fr-FR',{weekday:'short'}).replace('.',''));
+  let cells='';for(let i=0;i<lead;i++)cells+='<div class="cd out" aria-hidden="true"></div>';
+  for(let d=1;d<=n;d++){const ds=cur+'-'+pad(d),ex=byDay[ds]||[],rc=recDay[ds]||[],tot=sum(ex),fut=d>lastPast;
+    const h=tot?Math.max(.18,Math.min(1,per?tot/(per*2):tot/maxDay)):0,over=per&&tot>per;
+    const cats=CATS.filter(k=>ex.some(e=>e.cat===k.k));
+    const lab=new Date(ds+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+    cells+=`<button class="cd ${ds===TODAY?'today':''} ${ds===calSel?'sel':''} ${fut&&!tot?'fut':''} ${over?'over':''}" data-cday="${ds}" style="--h:${h.toFixed(2)}" aria-pressed="${ds===calSel}" aria-label="${esc(lab)} : ${tot?money(tot)+' dépensés':'aucune dépense'}${rc.length?', '+rc.length+' prélèvement'+(rc.length>1?'s':''):''}">
+      <span class="dn">${d}</span>${tot?`<span class="ct num">${moneyS(tot)}</span>`:''}
+      ${cats.length?`<span class="cdots">${cats.map(k=>`<i style="--c:${cv(k.k)}"></i>`).join('')}</span>`:''}
+      ${rc.slice(0,2).map(x=>`<span class="crec ${x.r.type} ${x.off?'off':''}">${x.r.type==='income'?'+':''}${esc(x.r.label)}</span>`).join('')}${rc.length>2?`<span class="cmore">+${rc.length-2} autre${rc.length>3?'s':''}</span>`:''}
+      ${rc.length?'<span class="rdot" aria-hidden="true"></span>':''}</button>`}
+  const sel=calSel,sex=(byDay[sel]||[]).slice().sort((a,b)=>(b.t||0)-(a.t||0)),src=recDay[sel]||[],stot=sum(sex);
+  const sLab=new Date(sel+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  const side=`<div class="calside"><section class="card"><div class="dayhead"><h2 style="margin:0;font-size:19px;font-weight:600">${esc(sLab)}</h2>${sel===TODAY?'<span class="tag" style="--c:var(--green)">Aujourd\'hui</span>':''}</div>
+      <div><div class="daytot num">${money(stot)}</div><p class="hint">${sex.length?`${sex.length} dépense${sex.length>1?'s':''}${per?` · ${stot>per?`${money0(stot-per)} au-dessus`:`${money0(per-stot)} sous`} de votre rythme de ${money0(per)} par jour`:''}`:'Aucune dépense ce jour-là.'}</p></div>
+      ${sex.length?`<div class="rows">${sex.map(txRow).join('')}</div>`:''}
+      ${src.length?`<div class="sub">Prélèvements et virements</div><div class="rows">${src.map(x=>recRow(x.r,{done:x.off,sub:x.off?'Exclu ce mois-ci':x.smooth?'Prélevé ce jour (lissé dans le budget)':freqText(x.r),amount:x.r.amount})).join('')}</div>`:''}
+      <button class="btn green" data-act="addday">+ Ajouter une dépense ce jour <kbd class="opt">↵</kbd></button></section>
+    <section class="card"><div class="callegend"><span><i class="sw"></i>Plus ou moins dépensé</span>${per?'<span><i class="sw r"></i>Au-dessus du rythme prévu</span>':''}<span><i class="sw k"></i>Prélèvement</span></div>
+      <p class="hint">Flèches : changer de jour · Entrée : ajouter une dépense ce jour · double-clic sur un jour pour y ajouter une dépense.</p></section></div>`;
+  return`<div class="calkpis num">
+    <section class="card kpi"><span class="k">Dépensé ce mois</span><b>${money(c.spent)}</b><small>${per?`rythme prévu : ${money0(per)} par jour`:'hors charges fixes'}</small></section>
+    <section class="card kpi"><span class="k">Jours sans dépense</span><b>${lastPast?zero+' / '+lastPast:'—'}</b><small>${lastPast?'jours écoulés du mois':'mois à venir'}</small></section>
+    <section class="card kpi"><span class="k">Plus grosse journée</span><b>${big?moneyS(big.t):'—'}</b><small>${big?esc(new Date(big.k+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric'})):'aucune dépense'}</small></section>
+    <section class="card kpi"><span class="k">Prélèvements du mois</span><b>${money0(recTot)}</b><small>${Object.values(recDay).flat().filter(x=>x.r.type!=='income').length} charge${Object.values(recDay).flat().filter(x=>x.r.type!=='income').length>1?'s':''} et virement${Object.values(recDay).flat().filter(x=>x.r.type!=='income').length>1?'s':''}</small></section></div>
+  <div class="calwrap"><section class="card"><div class="wd" aria-hidden="true">${wds.map(w=>`<span>${w}</span>`).join('')}</div><div class="cgrid" role="group" aria-label="Jours de ${esc(mName(cur))}">${cells}</div></section>${side}</div>`;
+}
+function moveDay(delta){const d=new Date((calSel||defaultDate())+'T12:00');d.setDate(d.getDate()+delta);calSel=iso(d);cur=calSel.slice(0,7);qa.date='';render();
+  const el=document.querySelector(`[data-cday="${calSel}"]`);if(el)el.focus({preventScroll:false})}
 
 /* --- Objectifs --- */
 function goalsPage(){
@@ -1172,11 +1258,13 @@ document.body.addEventListener('click',e=>{
       const u=URL.createObjectURL(blob),l=document.createElement('a');l.href=u;l.download=`kakeibo-${TODAY}.json`;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Sauvegarde téléchargée')}
     else if(act==='import')document.getElementById('imp-file').click();
     else if(act==='newrec')openRec();
+    else if(act==='addday')openExp();
     else if(act==='newgoal')openGoal();
     else if(act==='newsaving')openRec(null,{type:'saving',label:'Virement épargne'});
     else if(act==='copyprev'){const p=docOf(mShift(cur,-1)),snap=snapshot([cur]);mutate(cur,d=>{d.incomes=p.incomes.map(x=>({...x,id:rid()}));d.fixed=p.fixed.map(x=>({...x,id:rid()}));if(!d.goal)d.goal=p.goal;if(!CATS.some(k=>d.budgets[k.k]))d.budgets={...p.budgets}});toast('Mois précédent repris',snap)}
     else if(act==='fillenv'){const c=calc(cur),alloc=CATS.reduce((s,k)=>s+(+c.d.budgets[k.k]||0),0);mutate(cur,d=>{d.budgets.imprevus=r2((+d.budgets.imprevus||0)+c.avail-alloc)})}
     return}
+  const cdy=e.target.closest('[data-cday]');if(cdy){calSel=cdy.dataset.cday;render();const el=document.querySelector(`[data-cday="${calSel}"]`);if(el)el.focus({preventScroll:true});return}
   const dp=e.target.closest('[data-dep]');if(dp){openDep(dp.dataset.dep);return}
   const gg=e.target.closest('[data-goal]');if(gg){openGoal(gg.dataset.goal);return}
   const qc=e.target.closest('[data-qcat]');if(qc){qa.cat=qc.dataset.qcat;qa.touched=true;paintQuick();return}
@@ -1190,6 +1278,7 @@ document.body.addEventListener('click',e=>{
   const rs=e.target.closest('[data-recsugg]');if(rs){openRec(null,{...REC_SUGG[+rs.dataset.recsugg],amount:''});return}
   const rm=e.target.closest('[data-rm]');if(rm){const snap=snapshot([cur]);mutate(cur,d=>{d[rm.dataset.rm]=d[rm.dataset.rm].filter(x=>x.id!==rm.dataset.id)});toast('Ligne retirée',snap);return}
 });
+document.body.addEventListener('dblclick',e=>{const cdy=e.target.closest('[data-cday]');if(cdy){calSel=cdy.dataset.cday;openExp()}});
 document.body.addEventListener('submit',e=>{const f=e.target.closest('[data-addto]');if(!f)return;e.preventDefault();
   const[l,a]=f.querySelectorAll('input'),amt=validAmt(a.value),label=l.value.trim();if(!label){l.focus();return}if(!(amt>0)){a.focus();a.select();return}
   const lid=l.id;mutate(cur,d=>{d[f.dataset.addto].push({id:rid(),label,amount:amt})});document.getElementById(lid).focus()});
@@ -1221,9 +1310,11 @@ document.addEventListener('keydown',e=>{
   if(e.metaKey||e.ctrlKey||e.altKey)return;
   const k=e.key.toLowerCase();
   if(k==='n'||e.key==='+'){e.preventDefault();page==='goals'?openGoal():openExp();return}
+  if(page==='calendar'){const dl={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7}[e.key];if(dl){e.preventDefault();moveDay(dl);return}
+    if(e.key==='Enter'&&(!tg.closest('button,a')||tg.closest('[data-cday]'))){e.preventDefault();if(tg.dataset&&tg.dataset.cday)calSel=tg.dataset.cday;openExp();return}}
   if(e.key==='ArrowLeft'){setMonth(mShift(cur,-1));return}
   if(e.key==='ArrowRight'){setMonth(mShift(cur,1));return}
-  if(k==='t'){setMonth(CURM);return}
+  if(k==='t'){calSel=TODAY;setMonth(CURM);return}
   if(k==='d'){const t=document.documentElement.dataset.theme,dark=t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches;setTheme(dark?'light':'dark');return}
   if(e.key==='?'){document.getElementById('dlg-keys').showModal();return}
   if(e.key==='/'){e.preventDefault();if(page!=='journal')go('journal');setTimeout(()=>{const q=document.getElementById('q');if(q){q.focus();q.select()}},0);return}
